@@ -4,9 +4,9 @@ from django.utils.timezone import now, timedelta
 from django.contrib.auth import get_user_model
 from core.models import Kudos, Organization, OrganizationMembership
 
-User = get_user_model()  # Use the default or custom user model
+User = get_user_model() 
 
-# Sample messages for kudos
+
 KUDOS_MESSAGES = [
     "Great teamwork on the project!",
     "Thanks for helping me out last week!",
@@ -21,34 +21,31 @@ class Command(BaseCommand):
     help = "Generates test data for Kudos system"
 
     def handle(self, *args, **kwargs):
-        # Create organizations
         org1, _ = Organization.objects.get_or_create(name="Org Alpha")
         org2, _ = Organization.objects.get_or_create(name="Org Beta")
 
-        # Create users and their organization memberships
         users = []
-        for i in range(1, 6):  # Create 5 users per organization
+        for i in range(1, 6):
 
             user_alpha = User.objects.create(username=f"user{i}_alpha")
+            user_alpha.set_password("Now@12345")
             user_beta = User.objects.create(username=f"user{i}_beta")
-            import pdb; pdb.set_trace()
+            user_beta.set_password("Now@12345")
             OrganizationMembership.objects.create(user=user_alpha, organization=org1)
             OrganizationMembership.objects.create(user=user_beta, organization=org2)
 
             users.extend([user_alpha, user_beta])
 
-        # Create kudos
         for user in users:
-            # Get the user's organization
             membership = OrganizationMembership.objects.filter(user=user).first()
             if not membership:
-                continue  # Skip if the user has no organization
+                continue
 
             same_org_users = OrganizationMembership.objects.filter(organization=membership.organization).exclude(user=user)
-            receivers = random.sample(list(same_org_users), min(3, same_org_users.count()))  # Pick up to 3 random users
+            receivers = random.sample(list(same_org_users), min(3, same_org_users.count()))
 
             for receiver_membership in receivers:
-                message = random.choice(KUDOS_MESSAGES)  # Select a random message
+                message = random.choice(KUDOS_MESSAGES)
                 Kudos.objects.create(
                     giver=user,
                     receiver=receiver_membership.user,

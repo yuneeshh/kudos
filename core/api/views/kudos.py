@@ -12,8 +12,8 @@ class KudosAPIView(APIView):
     def get(self, request):
         """Retrieve kudos given and received by the authenticated user."""
         user = request.user
-        given_kudos = Kudos.objects.filter(giver=user)
-        received_kudos = Kudos.objects.filter(receiver=user)
+        given_kudos = Kudos.objects.filter(giver=user).select_related('giver', 'receiver')
+        received_kudos = Kudos.objects.filter(receiver=user).select_related('giver', 'receiver')
 
         return Response({
             "given": KudosSerializer(given_kudos, many=True).data,
