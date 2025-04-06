@@ -15,8 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
         return f"{obj.first_name} {obj.last_name}" if obj.first_name and obj.last_name else obj.username
 
 class KudosSerializer(serializers.ModelSerializer):
-    giver = UserSerializer(read_only=True)  # Include full_name for giver
-    receiver = UserSerializer(read_only=True)  # Include full_name for receiver
+    giver = UserSerializer(read_only=True)
+    receiver = UserSerializer(read_only=True)
 
     class Meta:
         model = Kudos

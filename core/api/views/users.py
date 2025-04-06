@@ -9,10 +9,8 @@ from rest_framework.views import APIView
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
     def get_queryset(self):
-        """
-        Returns only users belonging to the same organization as the logged-in user.
-        """
         user = self.request.user
 
         if hasattr(user, "organizationmembership"):
@@ -24,7 +22,11 @@ class OrganizationViewSet(ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
+
 class ProfileAPI(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
-        return Response({ "username": user.username, "organization": user.organizationmembership.organization.name })
+        organization = None
+        if hasattr(user, "organizationmembership"):
+            organization = user.organizationmembership.organization.name
+        return Response({ "username": user.username, "organization": organization })

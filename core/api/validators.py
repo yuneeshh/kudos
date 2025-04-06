@@ -8,7 +8,7 @@ class GiveKudosValidator(serializers.Serializer):
     message = serializers.CharField(max_length=280, required=False, allow_blank=True)
 
     def validate_receiver_id(self, value):
-        request_user = self.context["request"].user  # Get the currently authenticated user
+        request_user = self.context["request"].user
 
         try:
             receiver = User.objects.get(id=value)

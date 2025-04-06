@@ -29,8 +29,10 @@ class Command(BaseCommand):
 
             user_alpha = User.objects.create(username=f"user{i}_alpha")
             user_alpha.set_password("Now@12345")
+            user_alpha.save()
             user_beta = User.objects.create(username=f"user{i}_beta")
             user_beta.set_password("Now@12345")
+            user_beta.save()
             OrganizationMembership.objects.create(user=user_alpha, organization=org1)
             OrganizationMembership.objects.create(user=user_beta, organization=org2)
 

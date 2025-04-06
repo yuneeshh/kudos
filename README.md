@@ -42,7 +42,7 @@ python manage.py migrate
 ### Optional (Create super user and test data)
 ```bash
 python manage.py createsuperuser
-python manage.py generate_test_data.py
+python manage.py generate_test_data
 ```
 ### 4. Running the Server
 ```bash

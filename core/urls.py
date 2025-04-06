@@ -7,7 +7,6 @@ from rest_framework_simplejwt.views import (
 from core.api.views.users import UserViewSet, OrganizationViewSet, ProfileAPI
 from core.api.views.kudos import KudosAPIView
 from core.api.views.dashboard import DashboardView
-from core import views
 
 
 router = DefaultRouter()

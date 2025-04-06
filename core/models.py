@@ -13,7 +13,7 @@ class Organization(models.Model):
 
 class OrganizationMembership(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='members')
 
     def __str__(self):
         return f"{self.user} {self.organization}"
@@ -21,7 +21,7 @@ class OrganizationMembership(models.Model):
 class Kudos(models.Model):
     giver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_kudos")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_kudos")
-    message = models.TextField(max_length=280, blank=True)  # Optional message
+    message = models.TextField(max_length=280, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
